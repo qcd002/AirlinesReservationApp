@@ -1,0 +1,125 @@
+
+Create table Flight(
+	fnum int primary key,
+	price int,
+	cabin varchar(10),
+	meal varchar(20),
+	status varchar(15),
+	acraft varchar(15),
+	foreign key (acraft) references aircraft(acraft);
+	
+Create table Depart(
+	fnum int,
+	apcode char(3),
+	ddate varchar(10),
+	dtime varchar(10),
+	primary key (fnum,apcode)
+	foreign key (fnum) references flight(fnum),
+	foreign key (apcode) references airport(apcode));
+	
+Create table Arrive(
+	fnum int,
+	apcode char(3),
+	adate varchar(10),
+	atime varchar(10),
+	primary key (fnum,apcode),
+	foreign key (fnum) references flight(fnum),
+	foreign key (apcode) references airport(apcode));
+	
+Create table Airport(
+	apcode char(3) primary key,
+	name varchar(20),
+	zip int,
+	foreign key (zip) references zipcode(zip);
+	
+Create table ReservationCust(
+	conf int primary key,
+	dl int,
+	foreign key (dl) references customer(dl));
+	
+Create table ReservationFlig(
+	conf int primary key,
+	fnum int,
+	foreign key (fnum) references flight(fnum),
+	foreign key (conf) references reservationCust(conf));
+	
+Create table Customer(
+	dl int primary key,
+	name varchar(15),
+	email varchar(30),
+	phone int,
+	street varchar(20),
+	zip int,
+	foreign key (zip) references zipcode(zip));
+	
+Create table Baggage(
+	bid int primary key,
+	quantity int,
+	foreign key (quantity) references BaggagePrice(quantity)):
+	
+Create table BaggagePrice(
+	quantity double primary key,
+	price double);
+	
+Create table CustomerBag(
+	bid int primary key,
+	dl int,
+	foreign key (dl) references Customer(dl));
+	
+Create table FlightBag(
+	bid int primary key,
+	fnum int,
+	foreign key (fnum) references Flight(fnum));
+	
+Create table Zipcode(
+	zip int primary key,
+	city varchar(15),
+	state char(2))
+	
+Create table Delay(
+	dl int;
+	fnum int;
+	reason varchar(100),
+	primary key (fnum,dl)
+	foreign key (fnum) references flight(fnum),
+	foreign key (dl) references customer(dl));
+	
+Create table LostandFound(
+	bid int primary key,
+	reported timestamp,
+	pickedup timestamp,
+	foreign key (bid) references Baggage(bid));
+
+Create table CarRental(
+	vin int primary key,
+	comp varchar(20),
+	cartype varchar(10),
+	color varchar(15),
+	apcode char(3),
+	foreign key (apcode) references Airport(apcode));
+
+Create table CustomerCar(
+	dl int,
+	vin int,
+	carin timestamp,
+	carout timestamp,
+	primary key (dl,vin),
+	foreign key (dl) references Customer(dl),
+	foreign key (vin) references CarRental(vin));
+	
+Create table Hotel(
+	hcode int primary key,
+	name varchar(20),
+	address varchar(30));
+	
+Create table CustomerHotel(
+	dl int,
+	hcode int,
+	hotelin timestamp,
+	hotelout timestamp,
+	primary key (dl, hcode),
+	foreign key (dl) references Customer(dl));
+	
+
+
+	
